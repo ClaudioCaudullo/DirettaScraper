@@ -187,7 +187,7 @@ def pollingPartite():
             if risultato != data[t]['risultato']: #se il risultato è diverso da quello presente nel file polling.json
                 #mando il messaggio su telegram
                 messaggio="🆚 Match 🆚\n"+match['home']+" "+risultato+" "+match['away']+"\n" 
-                URL='https://api.telegram.org/bot5114308196:AAGBlrtRzOzDczXU5npZg2pAMaTWg1pY_GE/sendMessage'
+                URL=os.environ["bot"]
                 r = requests.get(url = URL, params = {'chat_id':-1001520829278,'text':messaggio})  
                 change=True #mi segno che è avvenuto un cambiamento
      
@@ -198,12 +198,12 @@ def pollingPartite():
                     if(stato=="Intervallo"): #se c'è l'intervallo
                         #mando il messaggio su telegram
                         messaggio="⏸ Fine primo tempo ⏸\n"+match['home']+" "+risultato+" "+match['away']+"\n"
-                        URL='https://api.telegram.org/bot5114308196:AAGBlrtRzOzDczXU5npZg2pAMaTWg1pY_GE/sendMessage'
+                        URL=os.environ["bot"]
                         r = requests.get(url = URL, params = {'chat_id':-1001520829278,'text':messaggio})  
                 else: #la partita è finita
                     #mando il messaggio su telegram
                     messaggio="⏹ Match Finito ⏹\n"+match['home']+" "+risultato+" "+match['away']+"\n"
-                    URL='https://api.telegram.org/bot5114308196:AAGBlrtRzOzDczXU5npZg2pAMaTWg1pY_GE/sendMessage'
+                    URL=os.environ["bot"]
                     r = requests.get(url = URL, params = {'chat_id':-1001520829278,'text':messaggio})
                     #inizio la sentiment analysis
                     #considero i post contenenti i nomi di entrambe le squadre
@@ -324,7 +324,7 @@ def pollingPartite():
                     print("neutral number: ",len(neutral_list))
                     #mando il messaggio su telegram
                     messaggio="💭Reazioni dei tifosi su twitter per la partita "+match['home']+" - "+match['away']+" 💭\n"+"🔎Numero totale di post:"+str(len(tweet_list))+"\n😄Post positivi: "+str(len(positive_list))+"\n😡Post negativi:"+str(len(negative_list))+"\n😶Post neutrali:"+str(len(neutral_list))+"\n"
-                    URL='https://api.telegram.org/bot5114308196:AAGBlrtRzOzDczXU5npZg2pAMaTWg1pY_GE/sendMessage'
+                    URL=os.environ["bot"]
                     r = requests.get(url = URL, params = {'chat_id':-1001520829278,'text':messaggio})
 
                     #adesso elimino la partita dai file
@@ -365,7 +365,7 @@ def pollingPartite():
                     if actionUpdate['Tipo'] == 'goal_annullato':
                         messaggio="⚠ Gol annullato ⚠\n"+actionUpdate['minuto']+" "+match['home']+" "+risultato+" "+match['away']+"\n" + actionUpdate['Name'] +"\n"     
                     #mando il messaggio di aggiornamento
-                    URL='https://api.telegram.org/bot5114308196:AAGBlrtRzOzDczXU5npZg2pAMaTWg1pY_GE/sendMessage'
+                    URL=os.environ["bot"]
                     r = requests.get(url = URL, params = {'chat_id':-1001520829278,'text':messaggio})
      
         else: #se l'evento fosse stato presente solo in uno dei due file, lo aggiungo al file mancante per parallelizzare le informazioni
@@ -492,7 +492,7 @@ def searchMatch():
     with open("sample.json", "w") as outfile:
         outfile.write(json_object)
 
-    URL='https://api.telegram.org/bot5114308196:AAGBlrtRzOzDczXU5npZg2pAMaTWg1pY_GE/sendMessage'
+    URL=os.environ["bot"]
 
     if len(messaggio)>4090: #se il messaggio è troppo lungo per essere inviato in una volta sola
         n = 4090
